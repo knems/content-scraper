@@ -62,7 +62,7 @@ function toUrl(url){
 
 function logError(error){
   let time = moment().format('LLLL');
-  let logStream = fs.createWriteStream('./scraper-error.log', {'flags': 'a'});
+  let logStream = fs.createWriteStream('scraper-error.log', {'flags': 'a'});
   logStream.write(`${time} ${error} \n`);
   logStream.end();
 }
