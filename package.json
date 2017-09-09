@@ -1,0 +1,25 @@
+{
+  "name": "content-scraper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scraper.js",
+  "dependencies": {
+    "json2csv": "^3.11.1",
+    "moment": "^2.18.1",
+    "scrape-it": "^3.3.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knems/content-scraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knems/content-scraper/issues"
+  },
+  "homepage": "https://github.com/knems/content-scraper#readme"
+}
