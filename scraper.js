@@ -6,7 +6,8 @@ const fs = require('fs'),
 let url = "http://shirts4mike.com/";
 //if not data folder exists one is created
 if(!fs.existsSync('data')){
-	fs.mkdir('data');}
+	fs.mkdir('data');
+}
 
 // Promise interface
 scrapeIt(url + "shirt.php", {
@@ -16,7 +17,9 @@ scrapeIt(url + "shirt.php", {
 				url: {
 					selector: "a",
 					attr: "href"
-				}}}
+				}
+			}
+		}
 }).then(response => {
 
 	let shirts = response.shirts;
@@ -29,7 +32,7 @@ scrapeIt(url + "shirt.php", {
 		let csv = json2csv({ data: result});
 		let date = moment().format('YYYY[-]MM[-]DD');
 
-		fs.writeFile(`data/${date}`, csv, function(error) {
+		fs.writeFile(`data/${date}.csv`, csv, function(error) {
 			if (error) throw error;
 			console.log('file saved');
 		});//write file
@@ -37,7 +40,7 @@ scrapeIt(url + "shirt.php", {
 }).catch(error => {
   if (error) {
     let msg = `There's been an ${error.code} error. Cannot connect to the website ${error.host}!\n`;
-    logError(err);
+    logError(msg);
   };
 });
 
@@ -53,13 +56,24 @@ function scrapeShirts(shirt){
       selector: 'img',
       attr: 'src',
       convert: x => toUrl(x)
+    },
+		createdAt: {
+	    selector: ".date",
+			convert: x => toTime()
     }
-  });}
+  });
+}
+
+function toTime(){
+	return moment().format('LT');
+}
 
 function toUrl(url){
   let id = url.match(/\d+/g);
-  return `http://www.shirts4mike.com/shirt.php?id=${id}`;}
+  return `http://www.shirts4mike.com/shirt.php?id=${id}`;
+}
 
+//fn to log error messages to the scraper-error.log file
 function logError(error){
   let time = moment().format('LLLL');
   let logStream = fs.createWriteStream('scraper-error.log', {'flags': 'a'});
